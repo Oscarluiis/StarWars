@@ -1,0 +1,6 @@
+@StarWarsGalaxy.API_HostAddress = http://localhost:5228
+
+GET {{StarWarsGalaxy.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
