@@ -32,5 +32,7 @@ app.UseHttpsRedirection();
 app.UseCors("AllowAll");
 app.UseAuthorization();
 app.MapControllers();
-
+app.UseDefaultFiles();
+app.UseStaticFiles();
+//app.MapGet("/", () => Results.Redirect("/index.html"));
 app.Run();
