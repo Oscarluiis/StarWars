@@ -1,7 +1,8 @@
 ﻿using FirebaseAdmin;
 using FirebaseAdmin.Auth;
-using Google.Cloud.Firestore;
 using Google.Apis.Auth.OAuth2;
+using Google.Cloud.Firestore;
+using StarWarsGalaxy.API.Models;
 using System.Security.Cryptography.X509Certificates;
 
 namespace StarWarsGalaxy.API.Services
@@ -105,6 +106,20 @@ namespace StarWarsGalaxy.API.Services
             var docRef = _firestoreDb.Collection("users").Document(userId);
             var snapshot = await docRef.GetSnapshotAsync();
             return snapshot.Exists ? snapshot.ConvertTo<T>() : null;
+        }
+
+        public async Task<List<Users>> GetAllUsersAsync()
+        {
+            var query = _firestoreDb.Collection("users");
+            var snapshot = await query.GetSnapshotAsync();
+
+            var users = new List<Users>();
+
+            foreach (var document in snapshot.Documents)
+            {
+                users.Add(document.ConvertTo<Users>());
+            }
+            return users;
         }
     }
 }

@@ -46,6 +46,35 @@ namespace StarWarsGalaxy.API.Controllers
             }
         }
 
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginRequest request)
+        {
+            try
+            {
+                //Buscar usuarios por correo
+                var users = await _firebaseService.GetAllUsersAsync();
+                var user = users.FirstOrDefault(u => u.Email == request.Email);
+
+                if (user == null)
+                {
+                    return Unauthorized(new {message = "Email no encontrado"});
+                }
+
+                //Tokenizacion simulada
+                return Ok(new
+                {
+                    message = "Login exitoso",
+                    user = user,
+                    token = $"token-{user.Id}" //token simulado
+                });
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = "Error en el login", error = ex.Message });
+            }
+        }
+
         [HttpPost("verify-token")]
         public async Task<IActionResult> VerifyToken([FromBody] TokenRequest request)
         {
@@ -99,5 +128,11 @@ namespace StarWarsGalaxy.API.Controllers
     public class TokenRequest
     {
         public string IdToken { get; set; } = string.Empty;
+    }
+
+    public class LoginRequest
+    {
+        public string Email { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
     }
 }
