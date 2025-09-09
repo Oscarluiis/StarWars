@@ -177,7 +177,7 @@
                     }, 2000);
 
                 } else {
-                    messageDiv.innerHTML = `div class="message error"
+                    messageDiv.innerHTML = `<div class="message error">
                                            ${data.message || 'Credenciales incorrectas'}
                                            </div>`
                 }
@@ -187,7 +187,7 @@
                                             </div>`
             } finally {
                 loginBtn.disabled = false;
-                //loading.style.display = none;
+                loading.style.display = 'none';
             }
         });
     </script>

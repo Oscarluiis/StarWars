@@ -90,6 +90,20 @@
             text-align: center;
             color: #ffd700;
         }
+
+        .links {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+            .links a {
+                color: #ffd700;
+                text-decoration: none;
+            }
+
+                .links a:hover {
+                    text-decoration: underline;
+                }
     </style>
 </head>
 <body>
@@ -118,7 +132,9 @@
 
         </form>
         
-        <a href="/login.html">Ya tienes cuenta? Inicia sesion</a>
+        <div class="links">
+            <a href="/login.html">Ya tienes cuenta? Inicia sesion</a>
+        </div>
         
         <div class="loading" id="loading">
             Registrando usuario...
