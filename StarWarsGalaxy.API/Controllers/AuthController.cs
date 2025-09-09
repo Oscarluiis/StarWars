@@ -11,9 +11,10 @@ namespace StarWarsGalaxy.API.Controllers
     public class AuthController : ControllerBase
     {
         private readonly FirebaseService _firebaseService;
-
-        public AuthController(FirebaseService firebaseService) {
+        private readonly PasswordService _passwordService;
+        public AuthController(FirebaseService firebaseService, PasswordService passwordService) {
             _firebaseService = firebaseService;
+            _passwordService = passwordService;
         }
 
         [HttpPost("register")]
@@ -22,13 +23,14 @@ namespace StarWarsGalaxy.API.Controllers
             try
             {
                 var userRecord = await _firebaseService.CreateUserAsync(request.Email, request.Password);
-
+                var passwordHash = _passwordService.HashPassword((request.Password));
                 var user = new Users
                 {
                     Id = userRecord.Uid,
                     Email = request.Email,
                     Name = request.Name,
                     CreatedAt = DateTime.UtcNow,
+                    PasswordHash = passwordHash
                 };
                 await _firebaseService.SaveUserProfileAsync(userRecord.Uid, user);
 
@@ -60,11 +62,16 @@ namespace StarWarsGalaxy.API.Controllers
                     return Unauthorized(new {message = "Email no encontrado"});
                 }
 
+                if (!_passwordService.VerifyPassword(request.Password, user.PasswordHash))
+                {
+                    return Unauthorized(new { message = "Contrasenia invalida" });
+                }
+
                 //Tokenizacion simulada
                 return Ok(new
                 {
                     message = "Login exitoso",
-                    user = user,
+                    user = new { user.Id, user.Email, user.Name, user.PasswordHash },
                     token = $"token-{user.Id}" //token simulado
                 });
 

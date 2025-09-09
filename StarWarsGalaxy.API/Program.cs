@@ -19,6 +19,8 @@ builder.Services.AddCors(options =>
             });
 });
 builder.Services.AddSingleton<FirebaseService>();
+//Validacion de credenciales
+builder.Services.AddSingleton<PasswordService>();
 
 var app = builder.Build();
 

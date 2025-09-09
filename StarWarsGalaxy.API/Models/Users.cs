@@ -22,5 +22,8 @@ namespace StarWarsGalaxy.API.Models
 
         [FirestoreProperty]
         public List<string> FavoritePlanets { get; set; } = new List<string>();
+
+        [FirestoreProperty]
+        public string PasswordHash { get; set; } = string.Empty;
     }
 }
