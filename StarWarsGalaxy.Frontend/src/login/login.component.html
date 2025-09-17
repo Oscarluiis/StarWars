@@ -1,0 +1,34 @@
+<div class="container-fluid vh-100 d-flex align-items-center justify-content-center star-wars-bg">
+    <div class="col-md-4">
+        <div class="card star-wars-card">
+            <div class="card-body">
+                <h2 class="text-center star-wars-title mb-4">Star Wars Galaxy</h2>
+
+                <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email:</label>
+                        <input type="email" class="form-control" id="email" formControlName="email">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Contraseña:</label>
+                        <input type="password" class="form-control" id="password" formControlName="password">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 star-wars-button"
+                        [disabled]="loginForm.invalid || loading">
+                        {{ loading ? 'Iniciando sesión...' : 'Iniciar Sesión' }}
+                    </button>
+                </form>
+
+                <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+                    {{ errorMessage }}
+                </div>
+
+                <div class="text-center mt-3">
+                    <a routerLink="/register" class="star-wars-link">¿No tienes cuenta? Regístrate</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
